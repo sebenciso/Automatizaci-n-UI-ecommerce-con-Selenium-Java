@@ -51,3 +51,26 @@ Copy code
         <scope>test</scope>
     </dependency>
 </dependencies>
+
+La estructura básica del Patrón de Objeto de Página (POM, por sus siglas en inglés) en un proyecto de automatización de UI con Java, Selenium Web Driver, Gradle/Maven, y Cucumber se puede ver como sigue:
+
+csharp
+Copy code
+public class PageObject {
+    private WebDriver driver;
+    
+    public PageObject(WebDriver driver) {
+        this.driver = driver;
+    }
+    
+    public void navigateTo(String url) {
+        driver.get(url);
+    }
+    
+    // Aquí puedes agregar métodos para interactuar con elementos de la página, como encontrar y hacer clic en un botón, ingresar texto en un campo de texto, etc.
+}
+En el ejemplo anterior, la clase PageObject define una estructura básica para una página de la aplicación que se quiere automatizar. El constructor de la clase toma un objeto WebDriver como argumento, que representa el navegador que se está utilizando para automatizar la prueba.
+
+Después, se define un método navigateTo(String url) que permite navegar a una URL específica utilizando el objeto WebDriver.
+
+Además, se pueden agregar otros métodos que permitan interactuar con los elementos de la página, como encontrar y hacer clic en un botón, ingresar texto en un campo de texto, etc.
