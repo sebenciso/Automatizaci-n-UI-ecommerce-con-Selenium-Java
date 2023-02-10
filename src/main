@@ -1,0 +1,68 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class ShoppingCartTest {
+  private WebDriver driver;
+
+  public ShoppingCartTest() {
+    System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver");
+    driver = new ChromeDriver();
+  }
+
+  public void addToCart() {
+    // Abre un sitio web
+    driver.get("https://www.example.com");
+
+    // En la barra de búsqueda, ingresar el producto "iPhone" y buscar
+    WebElement searchBar = driver.findElement(By.id("search-input"));
+    searchBar.sendKeys("iPhone");
+    searchBar.submit();
+
+    // Seleccionar la primera opción que aparezca
+    WebElement firstOption = driver.findElement(By.cssSelector("#search-results .product:first-child"));
+    firstOption.click();
+
+    // Agregar el producto al carrito de compras
+    WebElement addToCartButton = driver.findElement(By.id("add-to-cart-button"));
+    addToCartButton.click();
+
+    // Ingresar al botón del carrito de compras
+    WebElement cartButton = driver.findElement(By.id("cart-button"));
+    cartButton.click();
+  }
+
+  public void viewCart() {
+    // Presionar "View Cart"
+    WebElement viewCartButton = driver.findElement(By.id("view-cart-button"));
+    viewCartButton.click();
+
+    // Validar que el iPhone seleccionado se encuentre en el carrito de compras
+    WebElement cartItem = driver.findElement(By.cssSelector("#cart-items .product:first-child"));
+    String itemName = cartItem.findElement(By.cssSelector(".product-name")).getText();
+    assert itemName.equals("iPhone");
+  }
+
+  public void removeFromCart() {
+    // Remover el iPhone del carrito de compras
+    WebElement removeButton = driver.findElement(By.cssSelector("#cart-items .product:first-child .remove-button"));
+    removeButton.click();
+
+    // Validar que el iPhone ya no se encuentre en el carrito de compras
+    try {
+      driver.findElement(By.cssSelector("#cart-items .product:first-child"));
+      throw new AssertionError("The product was not removed from the cart");
+    } catch (NoSuchElementException e) {
+      // The product was successfully removed from the cart
+    }
+  }
+
+  public void quit() {
+    driver.quit();
+  }
+
+  public static void main(String[] args) {
+    ShoppingCartTest test = new ShoppingCartTest();
+    test.addToCart();
+    test.viewCart
